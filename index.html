@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src blob: data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>S&amp;B ArchFlow</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Figtree:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#e8eeec;--sf:#f8faf9;--tx:#12201f;--mu:#52625f;--ac:#0b5b62;--on:#fff;--w:#9a5b1a;--ln:#c5d1ce;--gr:rgba(11,91,98,.07);--ok:#17713f;--wm:#9a5b1a;--cd:#2c5f93;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1a1c;--sf:#142427;--tx:#e8f0ee;--mu:#9bb0ac;--ac:#e2b068;--on:#1a1206;--w:#6fd0c4;--ln:#274044;--gr:rgba(226,176,104,.07);--ok:#5fd59a;--wm:#f0b95a;--cd:#86b6ee;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1a1c;--sf:#142427;--tx:#e8f0ee;--mu:#9bb0ac;--ac:#e2b068;--on:#1a1206;--w:#6fd0c4;--ln:#274044;--gr:rgba(226,176,104,.07);--ok:#5fd59a;--wm:#f0b95a;--cd:#86b6ee;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--tx);font:16px/1.55 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;background-image:linear-gradient(var(--gr) 1px,transparent 1px),linear-gradient(90deg,var(--gr) 1px,transparent 1px);background-size:28px 28px;background-attachment:fixed;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+h1,h2,h3,.lg{font-family:"Bricolage Grotesque",Figtree,system-ui,sans-serif;line-height:1.15;margin:.3em 0 .4em}
+h1{font-size:clamp(1.6rem,6vw,2.3rem)}h2{font-size:1.35rem}h3{font-size:1.1rem}
+.mu{color:var(--mu)}small{color:var(--mu)}
+.hd{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-bottom:1px solid var(--ln)}
+.lg{font-size:1.2rem;font-weight:800}.hd small{display:block;margin-top:-2px}
+.btn{min-height:44px;padding:0 18px;border-radius:10px;border:1px solid var(--ln);background:var(--sf);color:var(--tx);font:inherit;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:disabled{opacity:.4;cursor:default}.pri{background:var(--ac);border-color:var(--ac);color:var(--on)}.dng{color:#b3261e}
+.bur{width:44px;padding:0;font-size:22px}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.dr{position:fixed;top:0;bottom:0;left:0;width:min(84vw,300px);transform:translateX(-105%);visibility:hidden;transition:transform .25s,visibility .25s;background:var(--sf);z-index:50;padding:calc(env(safe-area-inset-top,0px) + 18px) 16px 16px;border-right:1px solid var(--ln);display:flex;flex-direction:column;gap:6px;overflow-y:auto}
+.dr a{display:block;padding:12px 14px;border-radius:10px;color:var(--tx);text-decoration:none;font-weight:700}
+.dr a[aria-current=page]{background:var(--ac);color:var(--on)}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}
+.open .dr{transform:none;visibility:visible}.open .ov{opacity:1;pointer-events:auto}
+main{max-width:860px;margin:0 auto;padding:14px 14px 56px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:16px;margin:0 0 14px}
+label{display:block;font-weight:700;font-size:14px;margin:14px 0 5px}
+input,select{width:100%;min-height:46px;font:inherit;font-size:16px;color:var(--tx);background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:0 12px}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:12px 0}
+.row.l{justify-content:flex-start}
+.pb{height:8px;background:var(--ln);border-radius:99px;overflow:hidden;margin:8px 0 14px}.pb i{display:block;height:100%;background:var(--ac);transition:width .3s}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 16px;border-radius:99px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);font:inherit;font-weight:600;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ac);border-color:var(--ac);color:var(--on)}
+.ph{position:relative;display:grid;place-items:center;aspect-ratio:4/3;border:2px dashed var(--ln);border-radius:12px;overflow:hidden;cursor:pointer;text-align:center;padding:8px;background:var(--bg)}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph.has::after{content:"";position:absolute;left:0;right:0;height:3px;background:var(--ac);box-shadow:0 0 14px 3px var(--ac);animation:sc 2.4s ease-in-out 2}
+@keyframes sc{from{top:0}to{top:100%}}
+.vh{position:absolute;opacity:0;width:1px;height:1px}
+.big{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(1.5rem,6vw,2.1rem);margin:.1em 0}
+.bd{padding:3px 12px;border-radius:99px;font-size:13px;font-weight:700;border:1.5px solid currentColor}
+.quente{color:var(--ok)}.morno{color:var(--wm)}.frio{color:var(--cd)}
+.lead details{margin:8px 0}.lead summary{cursor:pointer;font-weight:700;min-height:32px}
+.lead ul,.res ul{margin:6px 0;padding-left:20px}
+.tt{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);transform:translate(-50%,20px);background:var(--tx);color:var(--bg);padding:10px 18px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90vw;font-weight:600}.tt.on{opacity:1;transform:translate(-50%,0)}
+details.mn{border-bottom:1px solid var(--ln);padding:6px 0}details.mn summary{font-weight:700;cursor:pointer;min-height:40px;display:flex;align-items:center}
+.sv{display:grid;grid-template-columns:2fr 1.3fr 1fr auto;gap:8px;margin:8px 0}
+@media (max-width:620px){.sv{grid-template-columns:1fr 1fr}.sv input:first-child{grid-column:1/-1}}
+@media print{.hd,.dr,.ov,.noprint,.tt{display:none!important}body{background:#fff;color:#000}.po .lead:not(.pr){display:none}.card{border-color:#999}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="hd"><button class="btn bur" id="bur" aria-label="Abrir menu" aria-expanded="false" aria-controls="dr">&#9776;</button><div><div class="lg">S&amp;B ArchFlow</div><small>com módulo VisionDecor</small></div></header>
+<div class="ov" id="ov"></div>
+<nav class="dr" id="dr" aria-label="Menu principal">
+<a href="#painel">Painel de leads</a><a href="#briefing">Formulário do cliente</a><a href="#precos">Preços e perfil</a><a href="#manual">Manual de uso</a>
+<button class="btn" id="th" style="margin-top:auto">Alternar claro e escuro</button>
+</nav>
+<main>
+<section id="v-painel" hidden></section><section id="v-briefing" hidden></section><section id="v-precos" hidden></section><section id="v-manual" hidden></section>
+</main>
+<div class="tt" id="tt" role="status" aria-live="polite"></div>
+<script>
+(()=>{'use strict';
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const put=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){toast('Não foi possível salvar neste navegador.')}};
+const brl=n=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(n);
+const num=(v,a,b,d)=>{v=parseFloat(String(v).replace(',','.'));return isFinite(v)?Math.min(b,Math.max(a,v)):d};
+const toast=t=>{const e=$('#tt');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),3200)};
+const wa=(ph,t)=>{let d=String(ph||'').replace(/\D/g,'');if(d.length<10||d.length>13)return'';if(d.length<=11)d='55'+d;return'https://wa.me/'+d+'?text='+encodeURIComponent(t)};
+const opn=u=>{if(u)window.open(u,'_blank','noopener,noreferrer');else toast('Configure o WhatsApp em Preços e perfil.')};
+const DEF={pro:'',ph:'',acab:{basico:1,medio:1.25,alto:1.6},svc:[{n:'Cozinha planejada',u:'m',p:2800},{n:'Dormitório e closet',u:'m',p:2400},{n:'Painel e sala sob medida',u:'m',p:1900},{n:'Banheiro e lavabo',u:'m',p:1700},{n:'Projeto de interiores',u:'m²',p:160}],add:{cava:220,led:90,quartzo:1100,espelho:900,ripado:650,ilha:3200}};
+const EL=[['cava','Portas com perfil cava','m',m=>`Perfil cava de alumínio: ${Math.ceil(m*2)} m`],['led','Fita de LED embutida','m',m=>`Fita LED, perfil e fonte: ${Math.ceil(m)} m`],['quartzo','Bancada em quartzo','m',m=>`Quartzo: ${(m*.65).toFixed(1)} m²`],['espelho','Espelho ou vidro','f',()=>'Espelho ou vidro sob medida: medir em obra'],['ripado','Painel ripado','m',m=>`Ripado em MDF: ${(m*.9).toFixed(1)} m²`],['ilha','Ilha ou península','f',()=>'Estrutura da ilha: mais 2 chapas de MDF']];
+const ST=['Contemporâneo natural','Minimalista','Industrial','Clássico','Rústico','Moderno luxo'];
+const TL={quente:'Lead quente',morno:'Lead morno',frio:'Lead frio'};
+const clone=o=>JSON.parse(JSON.stringify(o));
+let cfg=ld('sbaf_cfg',null);if(!cfg||!Array.isArray(cfg.svc)||!cfg.svc.length||!cfg.acab||!cfg.add)cfg=clone(DEF);
+let leads=ld('sbaf_leads',[]);if(!Array.isArray(leads))leads=[];
+let F='todos';
+const S0=()=>({step:0,nome:'',tel:'',svc:'0',m:'',ac:'medio',cur:'',ins:'',st:ST[0],els:[],inv:'',pz:'3',im:'p',done:null});
+let S=S0();
+const mats=(m,els)=>[`Chapas de MDF 18 mm: cerca de ${Math.ceil(m*.9)}`,`Ferragens (dobradiças e corrediças): cerca de ${Math.ceil(m*4)} peças`,...EL.filter(e=>els.includes(e[0])).map(e=>e[3](m))];
+const calc=(s,m,ac,els)=>{const v=cfg.svc[+s]||cfg.svc[0];let t=m*num(v.p,0,1e6,0)*num(cfg.acab[ac],.5,5,1);EL.forEach(e=>{if(els.includes(e[0]))t+=num(cfg.add[e[0]],0,1e6,0)*(e[2]==='m'?m:1)});const r=x=>Math.round(x/100)*100;return{v,lo:r(t*.9),hi:r(t*1.1)}};
+const score=(F_,lo)=>{let s=0,r=lo?F_.inv/lo:0;s+=F_.inv>=lo*.95?40:r>=.7?22:r>=.4?8:0;s+={3:25,6:15,12:8}[F_.pz]||0;s+={p:20,c:12,a:4}[F_.im]||0;if(F_.cur&&F_.ins)s+=10;if(F_.els.length)s+=5;return Math.min(100,s)};
+const tier=s=>s>=70?'quente':s>=45?'morno':'frio';
+const LB={pz:{3:'até 3 meses',6:'de 3 a 6 meses',12:'de 6 a 12 meses',99:'sem pressa'},im:{p:'imóvel próprio',c:'imóvel em compra',a:'imóvel alugado',n:'ainda não tem imóvel'}};
+const sel=(k,o,v)=>`<select id="f-${k}" data-k="${k}">${o.map(([a,b])=>`<option value="${esc(a)}"${String(v)===String(a)?' selected':''}>${esc(b)}</option>`).join('')}</select>`;
+
+function go(){const h=(location.hash||'#painel').slice(1),v=['painel','precos','briefing','manual'].includes(h)?h:'painel';
+$$('main>section').forEach(s=>s.hidden=s.id!=='v-'+v);closeM();
+$$('.dr a').forEach(a=>a.setAttribute('aria-current',a.hash==='#'+v?'page':'false'));
+({painel:rPainel,precos:rPrecos,briefing:rBrief,manual:rManual})[v]();scrollTo(0,0)}
+const closeM=()=>{document.body.classList.remove('open');$('#bur').setAttribute('aria-expanded','false')};
+
+function briefTxt(l){return[`Lead: ${l.nome} (${TL[l.tier]}, pontuação ${l.sc}/100)`,`WhatsApp: ${l.tel}`,`Serviço: ${l.svcN}, ${l.m} ${l.u==='m'?'m lineares':'m²'}, acabamento ${l.ac}`,`Estilo: ${l.style}`,`Elementos: ${l.els.length?l.els.map(i=>EL.find(e=>e[0]===i)[1]).join(', '):'nenhum informado'}`,`Estimativa: ${brl(l.lo)} a ${brl(l.hi)}`,`Investimento declarado: ${brl(l.inv)}`,`Prazo: ${LB.pz[l.pz]}; ${LB.im[l.im]}`,'Materiais previstos:',...l.mats.map(x=>'- '+x)].join('\n')}
+
+function rPainel(){const c=t=>leads.filter(l=>l.tier===t).length,L=leads.filter(l=>F==='todos'||l.tier===F);
+$('#v-painel').innerHTML=`<h1>Painel de leads</h1><p class="mu">${esc(cfg.pro||'Defina seu nome e WhatsApp em Preços e perfil.')}</p>
+<div class="g2"><div class="card"><small>Total</small><div class="big">${leads.length}</div></div><div class="card"><small>Quentes</small><div class="big quente">${c('quente')}</div></div><div class="card"><small>Mornos</small><div class="big morno">${c('morno')}</div></div><div class="card"><small>Frios</small><div class="big frio">${c('frio')}</div></div></div>
+<div class="row noprint l"><button class="btn pri" data-a="link">Copiar link do cliente</button><button class="btn" data-a="demo">Testar formulário</button><select id="flt" aria-label="Filtrar leads" style="width:auto">${['todos','quente','morno','frio'].map(x=>`<option value="${x}"${F===x?' selected':''}>${x==='todos'?'Todos os leads':TL[x]}</option>`).join('')}</select></div>
+${L.length?L.map(lead).join(''):'<div class="card"><h3>Nenhum lead por aqui</h3><p>Envie o link do cliente pelo Instagram ou WhatsApp. Cada briefing preenchido aparece neste painel já com pontuação e resumo.</p></div>'}`}
+function lead(l){return`<article class="card lead" data-id="${esc(l.id)}"><div class="row"><div><b>${esc(l.nome)}</b><br><small>${esc(l.svcN)}, ${esc(l.m)} ${l.u==='m'?'m lineares':'m²'}, ${esc(l.style)}</small></div><span class="bd ${esc(l.tier)}">${TL[l.tier]||''}</span></div>
+<div class="big">${brl(l.lo)} a ${brl(l.hi)}</div>
+<details><summary>Briefing completo</summary><ul><li>WhatsApp: ${esc(l.tel)}</li><li>Acabamento: ${esc(l.ac)}</li><li>Elementos: ${l.els.length?esc(l.els.map(i=>(EL.find(e=>e[0]===i)||[0,i])[1]).join(', ')):'nenhum informado'}</li><li>Investimento declarado: ${brl(l.inv)}</li><li>Prazo: ${esc(LB.pz[l.pz]||'')}; ${esc(LB.im[l.im]||'')}</li><li>Pontuação: ${esc(l.sc)} de 100</li></ul><b>Materiais previstos (estimativa)</b><ul>${l.mats.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></details>
+<div class="row noprint l"><select data-s="1" aria-label="Status do lead" style="width:auto">${['novo','contatado','reunião marcada','fechado','perdido'].map(x=>`<option${l.status===x?' selected':''}>${x}</option>`).join('')}</select><button class="btn pri" data-a="wa">Chamar no WhatsApp</button><button class="btn" data-a="copy">Copiar briefing</button><button class="btn" data-a="pdf">Gerar PDF</button><button class="btn dng" data-a="del">Excluir</button></div></article>`}
+
+function rPrecos(){const a=cfg.acab;
+$('#v-precos').innerHTML=`<h1>Preços e perfil</h1><div class="card"><h2>Seu perfil</h2><label for="c-pro">Nome ou marca</label><input id="c-pro" maxlength="60" value="${esc(cfg.pro)}"><label for="c-ph">WhatsApp para agendamentos (com DDD)</label><input id="c-ph" type="tel" inputmode="tel" maxlength="20" value="${esc(cfg.ph)}"></div>
+<div class="card"><h2>Tabela de serviços</h2><p class="mu">Valor por metro linear (marcenaria) ou por m² (projeto). O cliente nunca vê esta tabela, só a faixa final.</p>${cfg.svc.map((s,i)=>`<div class="sv"><input data-f="n" aria-label="Nome do serviço" maxlength="40" value="${esc(s.n)}"><select data-f="u" aria-label="Unidade"><option value="m"${s.u==='m'?' selected':''}>por metro linear</option><option value="m²"${s.u==='m²'?' selected':''}>por m²</option></select><input data-f="p" aria-label="Valor em reais" type="number" inputmode="decimal" min="0" max="1000000" step="10" value="${esc(s.p)}"><button class="btn dng" data-a="delsvc" data-i="${i}" aria-label="Remover serviço">&times;</button></div>`).join('')}<button class="btn" data-a="addsvc">Adicionar serviço</button></div>
+<div class="card"><h2>Acabamento</h2><p class="mu">Multiplicador sobre o valor base.</p><div class="g2"><div><label for="k-basico">Básico</label><input id="k-basico" type="number" step="0.05" min="0.5" max="5" value="${esc(a.basico)}"></div><div><label for="k-medio">Médio</label><input id="k-medio" type="number" step="0.05" min="0.5" max="5" value="${esc(a.medio)}"></div><div><label for="k-alto">Alto padrão</label><input id="k-alto" type="number" step="0.05" min="0.5" max="5" value="${esc(a.alto)}"></div></div></div>
+<div class="card"><h2>Adicionais do VisionDecor</h2><p class="mu">Valor por metro (itens lineares) ou valor fixo (ilha, espelho).</p><div class="g2">${EL.map(e=>`<div><label for="a-${e[0]}">${esc(e[1])} (${e[2]==='m'?'por metro':'fixo'})</label><input id="a-${e[0]}" type="number" min="0" max="1000000" step="10" value="${esc(cfg.add[e[0]])}"></div>`).join('')}</div></div>
+<div class="row l"><button class="btn pri" data-a="save">Salvar alterações</button><button class="btn dng" data-a="reset">Restaurar padrão</button></div>`}
+function readCfg(){const n=clone(cfg);n.pro=$('#c-pro').value.trim().slice(0,60);n.ph=$('#c-ph').value.trim().slice(0,20);
+n.svc=$$('.sv').map(r=>({n:$('[data-f=n]',r).value.trim().slice(0,40)||'Serviço',u:$('[data-f=u]',r).value==='m²'?'m²':'m',p:num($('[data-f=p]',r).value,0,1e6,0)}));
+['basico','medio','alto'].forEach(k=>n.acab[k]=num($('#k-'+k).value,.5,5,1));EL.forEach(e=>n.add[e[0]]=num($('#a-'+e[0]).value,0,1e6,0));return n}
+
+function stepHtml(){const s=S.step,v=cfg.svc[+S.svc]||cfg.svc[0];
+if(s===0)return`<h2>Vamos começar</h2><label for="f-nome">Seu nome</label><input id="f-nome" data-k="nome" maxlength="80" autocomplete="name" value="${esc(S.nome)}"><label for="f-tel">Seu WhatsApp com DDD</label><input id="f-tel" data-k="tel" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" value="${esc(S.tel)}"><label for="f-svc">O que você quer projetar?</label>${sel('svc',cfg.svc.map((x,i)=>[i,x.n]),S.svc)}`;
+if(s===1)return`<h2>Medidas e acabamento</h2><label for="f-m">Metragem aproximada (${v.u==='m'?'metros lineares de móvel':'m² do ambiente'})</label><input id="f-m" data-k="m" type="number" inputmode="decimal" min="0.5" max="500" step="0.1" value="${esc(S.m)}"><label for="f-ac">Padrão de acabamento</label>${sel('ac',[['basico','Básico'],['medio','Médio'],['alto','Alto padrão']],S.ac)}`;
+if(s===2)return`<h2>Suas fotos</h2><p class="mu">As fotos ficam só neste aparelho, para você conferir. Nada é enviado para a internet.</p><div class="g2">${[['cur','Foto do ambiente atual'],['ins','Foto de inspiração']].map(([k,t])=>`<label class="ph${S[k]?' has':''}" for="f-${k}">${S[k]?`<img src="${esc(S[k])}" alt="${t}">`:`<span>${t}<br><small>Toque para escolher</small></span>`}<input class="vh" id="f-${k}" data-ph="${k}" type="file" accept="image/jpeg,image/png,image/webp"></label>`).join('')}</div>`;
+if(s===3)return`<h2>O que a foto de inspiração mostra?</h2><p class="mu">O VisionDecor usa suas escolhas para listar os materiais do projeto.</p><b>Estilo</b><div class="chips" style="margin:8px 0 16px">${ST.map(x=>`<button type="button" class="chip" data-st="${esc(x)}" aria-pressed="${S.st===x}">${esc(x)}</button>`).join('')}</div><b>Elementos</b><div class="chips" style="margin-top:8px">${EL.map(e=>`<button type="button" class="chip" data-el="${e[0]}" aria-pressed="${S.els.includes(e[0])}">${esc(e[1])}</button>`).join('')}</div>`;
+return`<h2>Investimento e prazo</h2><label for="f-inv">Quanto pretende investir (R$)</label><input id="f-inv" data-k="inv" type="number" inputmode="numeric" min="0" max="100000000" step="500" value="${esc(S.inv)}"><label for="f-pz">Quando quer concluir?</label>${sel('pz',[[3,'Até 3 meses'],[6,'De 3 a 6 meses'],[12,'De 6 a 12 meses'],[99,'Sem pressa']],S.pz)}<label for="f-im">Situação do imóvel</label>${sel('im',[['p','Próprio'],['c','Em compra'],['a','Alugado'],['n','Ainda não tenho']],S.im)}`}
+function rBrief(){const el=$('#v-briefing');if(S.done){el.innerHTML=resHtml();return}
+el.innerHTML=`<h1>Briefing do projeto</h1><p class="mu">Passo ${S.step+1} de 5, leva cerca de 2 minutos.</p><div class="pb"><i style="width:${(S.step+1)*20}%"></i></div><div class="card">${stepHtml()}</div><div class="row"><button class="btn" data-a="back"${S.step?'':' disabled'}>Voltar</button><button class="btn pri" data-a="next">${S.step===4?'Ver minha estimativa':'Continuar'}</button></div>`}
+function chk(){const s=S.step;if(s===0){if(S.nome.trim().length<2)return'Informe seu nome.';if(!wa(S.tel,''))return'Informe um WhatsApp válido com DDD.'}if(s===1&&num(S.m,.5,500,0)<.5)return'Informe a metragem, entre 0,5 e 500.';if(s===4&&num(S.inv,0,1e8,-1)<0)return'Informe quanto pretende investir.';return''}
+function finish(){const m=num(S.m,.5,500,1),inv=num(S.inv,0,1e8,0),c=calc(S.svc,m,S.ac,S.els),sc=score({inv,pz:S.pz,im:S.im,cur:S.cur,ins:S.ins,els:S.els},c.lo);
+const l={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),ts:Date.now(),nome:S.nome.trim(),tel:S.tel.trim(),svcN:c.v.n,u:c.v.u,m,ac:S.ac,style:S.st,els:[...S.els],lo:c.lo,hi:c.hi,inv,pz:S.pz,im:S.im,sc,tier:tier(sc),mats:mats(m,S.els),status:'novo'};
+leads.unshift(l);put('sbaf_leads',leads);S.done=l}
+function resHtml(){const d=S.done,msg=`Olá! Sou ${d.nome}. Quero agendar a reunião técnica do meu projeto (${d.svcN}, ${d.m} ${d.u==='m'?'m lineares':'m²'}, estilo ${d.style}). Estimativa recebida: ${brl(d.lo)} a ${brl(d.hi)}.`;
+return`<div class="res"><h1>Sua estimativa, ${esc(d.nome.split(' ')[0])}</h1><div class="card"><small>Projeto no estilo ${esc(d.style)}</small><div class="big">${brl(d.lo)} a ${brl(d.hi)}</div><p class="mu">Valor de referência para planejamento. O valor final é definido pelo profissional na reunião técnica.</p>${d.tier==='quente'?`<button class="btn pri" data-a="sched">Agendar reunião técnica</button>`:`<p><b>Recebemos seu briefing.</b> O profissional analisa as informações e entra em contato pelo seu WhatsApp.</p>`}</div><div class="card"><h3>VisionDecor: materiais previstos</h3><ul>${d.mats.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><small>Pré-cálculo aproximado, confirmado em projeto.</small></div><button class="btn" data-a="new">Fazer outro briefing</button></div><span hidden id="msg">${esc(msg)}</span>`}
+
+function rManual(){const D=(t,b)=>`<details class="mn"><summary>${t}</summary><div>${b}</div></details>`;
+$('#v-manual').innerHTML=`<h1>Manual de uso</h1><div class="card">${D('1. Primeiros passos','<p>Abra o menu (botão de três linhas). Em <b>Preços e perfil</b>, informe seu nome, seu WhatsApp e a sua tabela de valores. Salve. Depois copie o link do cliente no <b>Painel de leads</b> e coloque na bio do Instagram ou envie no WhatsApp.</p>')}${D('2. Como o cliente usa','<p>O cliente responde 5 passos curtos: contato, medidas, fotos, estilo e elementos, investimento e prazo. No fim, vê uma faixa de preço e os materiais previstos.</p>')}${D('3. Como o preço é calculado','<p>Metragem × valor do serviço × multiplicador de acabamento, mais os adicionais escolhidos. A faixa mostrada vai de 10% abaixo a 10% acima. O cliente nunca vê sua tabela.</p>')}${D('4. Pontuação do lead','<p>Soma até 100 pontos: investimento compatível com a estimativa (40), prazo (25), situação do imóvel (20), fotos enviadas (10) e elementos informados (5). Quente: 70 ou mais, e só ele recebe o botão de agendar. Morno: 45 a 69. Frio: abaixo de 45.</p>')}${D('5. Trabalhando com os leads','<p>No painel, abra o briefing completo, chame o cliente no WhatsApp, copie o resumo, gere o PDF (use Salvar como PDF na janela de impressão) e atualize o status.</p>')}${D('6. VisionDecor, o que é nesta versão','<p>O cliente aponta estilo e elementos vistos na foto de inspiração, e o módulo calcula os materiais. A leitura automática da imagem por IA exige um servidor próprio e está prevista para a próxima etapa.</p>')}${D('7. Privacidade e segurança','<p>Esta versão não usa chaves, APIs nem servidor. Os dados ficam apenas no navegador deste aparelho, e as fotos não são enviadas nem guardadas. Limpar os dados do navegador apaga os leads, então copie ou gere o PDF dos importantes.</p>')}${D('8. Próxima etapa','<p>Banco de dados central (Supabase) para leads de vários aparelhos, login do profissional, WhatsApp oficial e leitura de fotos por IA em servidor, com as chaves guardadas só no servidor.</p>')}</div>`}
+
+document.addEventListener('click',e=>{const b=e.target.closest('button,[data-el]');if(!b)return;
+if(b.id==='bur'){const o=document.body.classList.toggle('open');b.setAttribute('aria-expanded',o);return}
+if(b.id==='th'){const d=document.documentElement,dk=d.dataset.theme?d.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;d.dataset.theme=dk?'light':'dark';return}
+if(b.dataset.el){const i=S.els.indexOf(b.dataset.el);i<0?S.els.push(b.dataset.el):S.els.splice(i,1);rBrief();return}
+if(b.dataset.st){S.st=b.dataset.st;rBrief();return}
+const a=b.dataset.a;if(!a)return;const card=b.closest('[data-id]'),l=card&&leads.find(x=>x.id===card.dataset.id);
+if(a==='back'){S.step--;rBrief()}
+else if(a==='next'){const m=chk();if(m){toast(m);return}if(S.step<4)S.step++;else finish();rBrief();scrollTo(0,0)}
+else if(a==='sched')opn(wa(cfg.ph,$('#msg').textContent));
+else if(a==='new'){S=S0();rBrief()}
+else if(a==='link'){const u=location.href.split('#')[0]+'#briefing';(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast('Link do cliente copiado.'),()=>toast('Não foi possível copiar. Use o menu Formulário do cliente.'))}
+else if(a==='demo')location.hash='#briefing';
+else if(a==='wa'&&l)opn(wa(l.tel,`Olá ${l.nome}! Aqui é ${cfg.pro||'o profissional'}. Vi seu briefing e quero combinar nossa reunião técnica.`));
+else if(a==='copy'&&l)(navigator.clipboard?navigator.clipboard.writeText(briefTxt(l)):Promise.reject()).then(()=>toast('Briefing copiado.'),()=>toast('Não foi possível copiar.'));
+else if(a==='pdf'&&l){$$('details',card).forEach(d=>d.open=true);card.classList.add('pr');document.body.classList.add('po');addEventListener('afterprint',()=>{card.classList.remove('pr');document.body.classList.remove('po')},{once:true});print()}
+else if(a==='del'&&l){if(confirm('Excluir este lead?')){leads=leads.filter(x=>x!==l);put('sbaf_leads',leads);rPainel()}}
+else if(a==='save'){cfg=readCfg();put('sbaf_cfg',cfg);toast('Alterações salvas.')}
+else if(a==='addsvc'){cfg=readCfg();if(cfg.svc.length<12)cfg.svc.push({n:'Novo serviço',u:'m',p:0});rPrecos()}
+else if(a==='delsvc'){cfg=readCfg();if(cfg.svc.length>1)cfg.svc.splice(+b.dataset.i,1);rPrecos()}
+else if(a==='reset'){if(confirm('Restaurar a tabela padrão?')){cfg=clone(DEF);put('sbaf_cfg',cfg);rPrecos()}}});
+document.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.k;if(k&&$('#v-briefing').contains(e.target))S[k]=e.target.value});
+document.addEventListener('change',e=>{const t=e.target;
+if(t.id==='flt'){F=t.value;rPainel()}
+else if(t.dataset.s){const l=leads.find(x=>x.id===t.closest('[data-id]').dataset.id);if(l){l.status=t.value;put('sbaf_leads',leads)}}
+else if(t.dataset.ph){const f=t.files[0],k=t.dataset.ph;if(!f)return;if(!/^image\/(jpeg|png|webp)$/.test(f.type)||f.size>12e6){toast('Envie JPG, PNG ou WebP de até 12 MB.');return}if(S[k])URL.revokeObjectURL(S[k]);S[k]=URL.createObjectURL(f);rBrief()}
+else if(t.dataset.k&&t.tagName==='SELECT'&&t.dataset.k==='svc')rBrief()});
+$('#ov').addEventListener('click',closeM);$('#dr').addEventListener('click',e=>{if(e.target.closest('a'))closeM()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+addEventListener('hashchange',go);go();
+})();
+</script>
+</body>
+</html>
